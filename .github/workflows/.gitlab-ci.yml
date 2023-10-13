@@ -1,0 +1,25 @@
+stages:
+  - build
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
+before_script:
+  - docker version
+  - docker-compose version
+
+build:
+  stage: build
+  tags:
+    - grid5000-docker
+  # Official docker compose image
+  image: docker/compose:latest
+  script:
+    - docker-compose up -d
+    - docker images
+    - docker ps -a
+    - docker run --network container:backend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
