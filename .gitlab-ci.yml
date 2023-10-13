@@ -2,22 +2,18 @@ stages:
   - build
 
 variables:
-  DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
 
 services:
-  - docker:dind
-
-before_script:
-  - docker version
-  - docker-compose version
+  - name: docker:20.10.12-dind
+    alias: docker
 
 build:
   stage: build
   tags:
-    - grid5000-docker
-  # Official docker compose image
-  image: docker/compose:latest
+    - ci.inria.fr
+    - small
+  image: docker:20.10
   script:
     - docker-compose up -d
     - docker images
