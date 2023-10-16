@@ -19,3 +19,4 @@ build:
     - docker images
     - docker ps -a
     - docker run --network container:backend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
+    - cat /proc/1/cgroup # check the CGroup
