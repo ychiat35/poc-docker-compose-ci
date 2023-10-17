@@ -25,10 +25,11 @@ jobs:
         run: docker-compose up -d
         working-directory: ${{ github.workspace }}
 
-      - name: Check docker images and containers
+      - name: Check docker images, containers and CGroup
         run: |
           docker images
           docker ps -a
+          cat /proc/1/cgroup
 
       - name: Test
         run: docker run --network container:backend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
